@@ -5,7 +5,7 @@ An automated pipeline that watches a folder for incoming receipt scans, extracts
 
 ---
 
-## How It Works
+## 🚀 How It Works
 
 ```
 scans/incoming/  →  scans/processing/  →  scans/done/
@@ -24,7 +24,7 @@ scans/incoming/  →  scans/processing/  →  scans/done/
 
 ---
 
-## Project Structure
+## 🛠️ Project Structure
 
 ```
 project_directory/
@@ -47,7 +47,7 @@ project_directory/
 
 ---
 
-## Setup
+## ⚡ Quick Setup
 
 **1. Install dependencies**
 ```bash
@@ -79,7 +79,7 @@ python main.py
 
 ---
 
-## Output Format
+## 📁 Output Format
 
 Each processed receipt produces a CSV at `output_csv/YYYY_MM_DD/N.csv`:
 
@@ -91,7 +91,7 @@ Quantity,Recipe Name
 
 ---
 
-## Logs
+## 💬 Logs
 
 Logs are written to `logs/` and rotate daily.
 
@@ -101,7 +101,7 @@ Logs are written to `logs/` and rotate daily.
 
 ---
 
-## Notes
+## ✍ Notes
 
 - Supported 106 language based from PaddleOCR (PP-OCRv5) including Thai, English, Chinese, Japanese, Korean, French, Arabic, and more.
 Visit the [PaddleOCR GitHub Repository](https://github.com/PaddlePaddle/PaddleOCR?tab=readme-ov-file#-license) for more information.
