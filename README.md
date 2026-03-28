@@ -1,10 +1,11 @@
-# MunchBox OCR
+# Sales-Extraction-From-Receipt
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 An automated pipeline that watches a folder for incoming receipt scans, extracts order data using OCR, fuzzy-matches item names against a recipe list, and outputs structured CSV files.
 
 ---
 
-## How It Works
+## 🚀 How It Works
 
 ```
 scans/incoming/  →  scans/processing/  →  scans/done/
@@ -23,12 +24,12 @@ scans/incoming/  →  scans/processing/  →  scans/done/
 
 ---
 
-## Project Structure
+## 🛠️ Project Structure
 
 ```
-munchbox_ocr/
+project_directory/
 ├── scans/
-│   ├── incoming/       # Drop scans here
+│   ├── incoming/       # ⭐ Drop scans here ⭐
 │   ├── processing/     # Temporary — files being processed
 │   ├── done/           # Successfully processed images
 │   └── failed/         # Images that failed OCR after max retries
@@ -40,16 +41,17 @@ munchbox_ocr/
 ├── pipeline.py         # Main entry point — watcher + worker
 ├── ocr.py              # OCR logic and fuzzy matching
 ├── cleanup.py          # Deletes files older than retention limit
-└── main.py
+├── main.py
+└── requirements.txt
 ```
 
 ---
 
-## Setup
+## ⚡ Quick Setup
 
 **1. Install dependencies**
 ```bash
-pip install paddleocr opencv-python watchdog
+pip install -r requirements.txt
 ```
 
 **2. Add your menu names**
@@ -72,12 +74,12 @@ Create `recipes/recipes_name.csv` with one item per row:
 
 **4. Run**
 ```bash
-python pipeline.py
+python main.py
 ```
 
 ---
 
-## Output Format
+## 📁 Output Format
 
 Each processed receipt produces a CSV at `output_csv/YYYY_MM_DD/N.csv`:
 
@@ -89,7 +91,7 @@ Quantity,Recipe Name
 
 ---
 
-## Logs
+## 💬 Logs
 
 Logs are written to `logs/` and rotate daily.
 
@@ -99,8 +101,28 @@ Logs are written to `logs/` and rotate daily.
 
 ---
 
-## Notes
+## ✍ Notes
+
+- Supported 106 language based from PaddleOCR (PP-OCRv5) including Thai, English, Chinese, Japanese, Korean, French, Arabic, and more.
+Visit the [PaddleOCR GitHub Repository](https://github.com/PaddlePaddle/PaddleOCR?tab=readme-ov-file#-license) for more information.
 
 - Supported image formats: `.jpg`, `.jpeg`, `.png`, `.pdf`
 - If the pipeline crashes, any files left in `scans/processing/` are automatically re-queued on next startup
 - Cleanup runs automatically every 24 hours while the pipeline is running
+
+# 📄 License
+```
+This project is released under the Apache 2.0 license.
+```
+
+# 🎓 Citation
+
+**Repository:**
+```bibtex
+@misc{paddleocr2020,
+  title={PaddleOCR: Awesome Multilingual OCR Toolkits based on PaddlePaddle},
+  author={PaddlePaddle Authors},
+  year={2020},
+  howpublished={\url{https://github.com/PaddlePaddle/PaddleOCR}},
+}
+```
