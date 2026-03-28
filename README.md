@@ -1,4 +1,5 @@
 # MunchBox OCR
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 An automated pipeline that watches a folder for incoming receipt scans, extracts order data using OCR, fuzzy-matches item names against a recipe list, and outputs structured CSV files.
 
@@ -40,7 +41,7 @@ project_directory/
 ├── pipeline.py         # Main entry point — watcher + worker
 ├── ocr.py              # OCR logic and fuzzy matching
 ├── cleanup.py          # Deletes files older than retention limit
-└── main.py
+├── main.py
 └── requirements.txt
 ```
 
@@ -73,7 +74,7 @@ Create `recipes/recipes_name.csv` with one item per row:
 
 **4. Run**
 ```bash
-python pipeline.py
+python main.py
 ```
 
 ---
@@ -125,5 +126,3 @@ This project is released under the Apache 2.0 license.
   howpublished={\url{https://github.com/PaddlePaddle/PaddleOCR}},
 }
 ```
-
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
