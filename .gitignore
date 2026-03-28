@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Scans (runtime data, potentially sensitive)
+scans/incoming/
+scans/processing/
+scans/done/
+scans/failed/
+
+# Outputs (runtime data)
+output_csv/
+
+# Logs
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
