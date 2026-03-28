@@ -1,4 +1,4 @@
-# MunchBox OCR
+# Sales-Extraction-From-Receipt
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 An automated pipeline that watches a folder for incoming receipt scans, extracts order data using OCR, fuzzy-matches item names against a recipe list, and outputs structured CSV files.
