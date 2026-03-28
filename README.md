@@ -26,9 +26,9 @@ scans/incoming/  →  scans/processing/  →  scans/done/
 ## Project Structure
 
 ```
-munchbox_ocr/
+project_directory/
 ├── scans/
-│   ├── incoming/       # Drop scans here
+│   ├── incoming/       # ⭐ Drop scans here ⭐
 │   ├── processing/     # Temporary — files being processed
 │   ├── done/           # Successfully processed images
 │   └── failed/         # Images that failed OCR after max retries
@@ -41,6 +41,7 @@ munchbox_ocr/
 ├── ocr.py              # OCR logic and fuzzy matching
 ├── cleanup.py          # Deletes files older than retention limit
 └── main.py
+└── requirements.txt
 ```
 
 ---
@@ -49,7 +50,7 @@ munchbox_ocr/
 
 **1. Install dependencies**
 ```bash
-pip install paddleocr opencv-python watchdog
+pip install -r requirements.txt
 ```
 
 **2. Add your menu names**
@@ -101,6 +102,28 @@ Logs are written to `logs/` and rotate daily.
 
 ## Notes
 
+- Supported 106 language based from PaddleOCR (PP-OCRv5) including Thai, English, Chinese, Japanese, Korean, French, Arabic, and more.
+Visit the [PaddleOCR GitHub Repository](https://github.com/PaddlePaddle/PaddleOCR?tab=readme-ov-file#-license) for more information.
+
 - Supported image formats: `.jpg`, `.jpeg`, `.png`, `.pdf`
 - If the pipeline crashes, any files left in `scans/processing/` are automatically re-queued on next startup
 - Cleanup runs automatically every 24 hours while the pipeline is running
+
+# 📄 License
+```
+This project is released under the Apache 2.0 license.
+```
+
+# 🎓 Citation
+
+**Repository:**
+```bibtex
+@misc{paddleocr2020,
+  title={PaddleOCR: Awesome Multilingual OCR Toolkits based on PaddlePaddle},
+  author={PaddlePaddle Authors},
+  year={2020},
+  howpublished={\url{https://github.com/PaddlePaddle/PaddleOCR}},
+}
+```
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
