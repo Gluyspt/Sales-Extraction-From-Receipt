@@ -29,56 +29,55 @@ def get_date_from_filename(filename):
     return None
 
 def run_cleanup():
-    """
-    Scans folders and deletes files older than RETENTION_DAYS 
-    using the system's 'Last Modified' timestamp.
-    """
     cutoff_seconds = time.time() - (RETENTION_DAYS * 24 * 60 * 60)
     files_deleted = 0
     files_rescued = 0
-    
+
     logger.info(f"[CLEANUP] Task started. Looking for files older than {RETENTION_DAYS} days...")
 
     for folder in FOLDERS_TO_CLEAN:
-        if not os.path.exists(folder): 
+        if not os.path.exists(folder):
             continue
 
-        for filename in os.listdir(folder):
-            file_path = os.path.join(folder, filename)
+        for dirpath, dirnames, filenames in os.walk(folder):
+            for filename in filenames:
+                file_path = os.path.join(dirpath, filename)
 
-            # --- 1. SAFETY CHECKS (Now inside the loop) ---
-            # 1. Skip the active log (avoid crash)
-            if filename == "current.log":
-                continue
-            
-            # 2. If it's the recipe file, move it to \recipes
-            if "recipes_name" in filename.lower():
-                try:
-                    shutil.move(file_path, os.path.join(RECIPES_FOLDER, filename))
-                    logger.warning(f"[RESCUE] Found misplaced recipe {filename}. Moved to {RECIPES_FOLDER}")
-                    files_rescued += 1
-                except Exception as e:
-                    logger.error(f"[RESCUE ERROR] Could not move {filename}: {e}")
-                continue
-            
-            # 3. If it's a python script, move it to the root folder
-            if filename.endswith(".py"):
-                try:
-                    shutil.move(file_path, os.path.join(ROOT_FOLDER, filename))
-                    logger.warning(f"[RESCUE] Found misplaced script {filename}. Moved to Root.")
-                    files_rescued += 1
-                except Exception as e:
-                    logger.error(f"[RESCUE ERROR] Could not move {filename}: {e}")
-                continue
-            
-            # --- 2. DELETE LOGIC (Age Check) ---
-            if os.path.isfile(file_path):
+                if filename == "current.log":
+                    continue
+
+                if "recipes_name" in filename.lower():
+                    try:
+                        shutil.move(file_path, os.path.join(RECIPES_FOLDER, filename))
+                        logger.warning(f"[RESCUE] Found misplaced recipe {filename}. Moved to {RECIPES_FOLDER}")
+                        files_rescued += 1
+                    except Exception as e:
+                        logger.error(f"[RESCUE ERROR] Could not move {filename}: {e}")
+                    continue
+
+                if filename.endswith(".py"):
+                    try:
+                        shutil.move(file_path, os.path.join(ROOT_FOLDER, filename))
+                        logger.warning(f"[RESCUE] Found misplaced script {filename}. Moved to Root.")
+                        files_rescued += 1
+                    except Exception as e:
+                        logger.error(f"[RESCUE ERROR] Could not move {filename}: {e}")
+                    continue
+
                 if os.path.getmtime(file_path) < cutoff_seconds:
                     try:
                         os.remove(file_path)
                         files_deleted += 1
                     except Exception as e:
                         logger.error(f"[CLEANUP] Failed to delete {filename}: {e}")
+
+        # Remove empty date subdirectories after cleaning
+        for dirpath, dirnames, filenames in os.walk(folder, topdown=False):
+            if dirpath != folder and not os.listdir(dirpath):
+                try:
+                    os.rmdir(dirpath)
+                except Exception as e:
+                    logger.error(f"[CLEANUP] Failed to remove empty folder {dirpath}: {e}")
 
     if files_deleted > 0:
         logger.info(f"[CLEANUP] Removed {files_deleted} expired files.")
